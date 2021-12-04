@@ -1,8 +1,7 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-
-int main(){
+int main() {
   std::ifstream fin;
   fin.open("input.txt");
   int depth = 0;
@@ -10,20 +9,20 @@ int main(){
   int aim = 0;
   std::string instr;
   int val;
-  while(fin >> instr){
+  while (fin >> instr) {
     fin >> val;
-    switch (instr[0]){
-      case 'u': 
-        aim -= val;
-        break;
-      case 'd':
-        aim += val;
-        break;
-      case 'f':
-        h += val;
-        depth += val * aim;
-        break;
+    switch (instr[0]) {
+    case 'u':
+      aim -= val;
+      break;
+    case 'd':
+      aim += val;
+      break;
+    case 'f':
+      h += val;
+      depth += val * aim;
+      break;
     }
   }
-  std::cout << h * depth<< std::endl;
+  std::cout << h * depth << std::endl;
 }
