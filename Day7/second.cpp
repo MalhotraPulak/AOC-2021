@@ -27,6 +27,15 @@ void print_vec(std::vector<int> &v) {
   std::cout << "\n";
 }
 
+
+int get_sum(std::vector <int> &v, int mid) {
+  int total = 0;
+  for (int x: v) {
+      total += abs(x - mid) * (abs(x - mid) + 1) / 2; 
+  }
+  return total;
+}
+
 int main(int argc, char *argv[]) {
   std::ifstream fin;
   fin.open(argv[1]);
@@ -35,27 +44,22 @@ int main(int argc, char *argv[]) {
   auto nums = comma_sep(str);
   sort(nums.begin(), nums.end());
   int total = nums.size(); 
-  std::vector <int> cost_pre(total, nums[0]);
-  std::vector <int> cost_suff(total, nums[nums.size() - 1]);
-  for(int i = 1; i < nums.size(); i++) {
-    cost_pre[i] = cost_pre[i - 1] + nums[i]; 
-  }
-  for(int i = nums.size() - 2; i >= 0; i--) {
-    cost_suff[i] = cost_suff[i + 1] + nums[i]; 
-  }
   int ans = INT_MAX; 
   
-  for(int i = nums[0]; i <= nums[nums.size() - 1]; i++) {
-    int center = i;
-    int cost = 0;
-    for(int j = 0; j < nums.size(); j++){
-      int dist = abs(nums[j] - center);
-      cost += dist * (dist + 1) / 2;
-    }
-    ans = std::min(ans, cost);
-  }
+  int l = 0, r = nums[nums.size() - 1];
 
-  std::cout << ans << std::endl;
+  while (l < r) {
+    int mid = (l + r)/2;
+    if (get_sum(nums, mid) > get_sum(nums, mid + 1)) {
+      l = ans = mid + 1;
+    } else {
+      r = ans = mid;
+    }
+
+  }
+  
+
+  std::cout << get_sum(nums, ans) << std::endl;
 
 
 }
