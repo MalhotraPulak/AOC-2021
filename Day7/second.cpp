@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
   fin >> str;
   auto nums = comma_sep(str);
   sort(nums.begin(), nums.end());
+
   int total = nums.size(); 
   int ans = INT_MAX; 
   
