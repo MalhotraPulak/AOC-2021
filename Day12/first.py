@@ -1,6 +1,6 @@
 from collections import defaultdict
 import sys
-from copy import deepcopy
+import pprint
 
 count = 0
 
@@ -11,40 +11,30 @@ def main():
 
     adj = defaultdict(lambda: [])
 
-    lowers = []
     for line in lines:
         start, end = line.split("-")
         start = start.strip()
         end = end.strip()
         adj[start].append(end)
         adj[end].append(start)
-        if start.islower():
-            lowers.append(start)
-        if end.islower():
-            lowers.append(end)
 
-    def dfs(node, path, powerup):
+    def dfs(node, path):
 
+        print(node, path)
         if node == "end":
             global count
             count += 1
             return
 
-        path[node] += 1
+        path.append(node)
 
         for child in adj[node]:
-            if child == "start":
-                continue
-
-            if child.isupper() or path[child] == 0:
-                dfs(child, deepcopy(path), powerup)
-            elif path[child] == 1 and powerup:
-                dfs(child, deepcopy(path), False)
+            if child.isupper() or child not in path:
+                dfs(child, path.copy())
 
     global count
     count = 0
-    p = defaultdict(lambda: 0)
-    dfs("start", p, True)
+    dfs("start", [])
 
     print(count)
 
